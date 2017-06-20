@@ -4,7 +4,7 @@ var edge = require('electron-edge');
 
 var libDir = path.join(__dirname, 'lib');
 var nodeDymoLib = path.join(libDir, 'NodeDymoLib.dll');
-var dymoLibPath = path.join('C:', 'Program Files (x86)', 'DYMO', 'DYMO Label Software', 'Framework', '.net4');
+var dymoLibPath = path.join('C:', 'Program Files (x86)', 'DYMO', 'DYMO Label Software', 'Framework');
 dymoAssemblies = [ 'DYMO.Label.Framework.dll', 'DYMO.DLS.Runtime.dll', 'DYMO.Common.dll' ];
 
 var called = 0;
