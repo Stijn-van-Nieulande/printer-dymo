@@ -1,6 +1,6 @@
 var path = require('path');
 var fs = require('fs');
-var edge = require('edge');
+var edge = require('electron-edge');
 
 var libDir = path.join(__dirname, 'lib');
 var nodeDymoLib = path.join(libDir, 'NodeDymoLib.dll');
