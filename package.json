@@ -1,14 +1,14 @@
 {
-  "name": "dymo",
-  "version": "0.0.2",
-  "description": "Node.js addon for interfacing with Dymo LabelWriter printers",
+  "name": "printer-dymo",
+  "version": "0.0.3",
+  "description": "An Electron Node.js addon for interfacing with Dymo LabelWriter printers",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BuildingIntelligence/dymo.git"
+    "url": "git+https://github.com/FreshVine/printer-dymo.git"
   },
   "keywords": [
     "dymo",
@@ -19,9 +19,9 @@
   "contributors": [],
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/BuildingIntelligence/dymo/issues"
+    "url": "https://github.com/FreshVine/printer-dymo/issues"
   },
-  "homepage": "https://github.com/BuildingIntelligence/dymo#readme",
+  "homepage": "https://github.com/FreshVine/printer-dymo#readme",
   "devDependencies": {
     "chai": "^3.3.0",
     "gulp": "^3.9.0",
@@ -30,6 +30,6 @@
     "mocha": "^2.3.3"
   },
   "dependencies": {
-    "edge": "^4.0.0"
+    "electron-edge": "^4.0.0"
   }
 }
