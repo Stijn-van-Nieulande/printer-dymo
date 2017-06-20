@@ -13,10 +13,13 @@
   "keywords": [
     "dymo",
     "labelwriter",
-    "printer"
+    "printer",
+    "electron"
   ],
-  "author": "Travis Sinnott <travis@buildingintelligence.com>",
-  "contributors": [],
+  "contributors":[
+    "Paul Prins (https://github.com/paulprins)",
+    "Travis Sinnott <travis@buildingintelligence.com>"
+  ],
   "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/FreshVine/printer-dymo/issues"
@@ -30,6 +33,6 @@
     "mocha": "^2.3.3"
   },
   "dependencies": {
-    "electron-edge": "^4.0.0"
+    "electron-edge": "kexplo/electron-edge\electron_v1.6.2"
   }
 }
