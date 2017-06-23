@@ -1,18 +1,39 @@
-var path = require('path');
-var fs = require('fs');
-var edge = require('electron-edge');
+var path = require('path'),
+	fs = require('fs'),
+	edge = require('electron-edge'),
+	activePrinter,
+	initReady = false;
 
-var libDir = path.join(__dirname, 'lib');
-var nodeDymoLib = path.join(libDir, 'NodeDymoLib.dll');
-var dymoLibPath = path.join('C:', 'Program Files (x86)', 'DYMO', 'DYMO Label Software', 'Framework');
-dymoAssemblies = [ 'DYMO.Label.Framework.dll', 'DYMO.DLS.Runtime.dll', 'DYMO.Common.dll' ];
 
-var called = 0;
+//
+// Lets Make sure the Libraries are here
+var libDir = path.join(__dirname, 'lib'),
+	nodeDymoLib = path.join(libDir, 'NodeDymoLib.dll'),
+	dymoLibPath = path.join('C:', 'Program Files (x86)', 'DYMO', 'DYMO Label Software', 'Framework'),
+	dymoAssemblies = [ 'DYMO.Label.Framework.dll', 'DYMO.DLS.Runtime.dll', 'DYMO.Common.dll' ],
+	libsMoved = 0;
 
 var initDymoLib = function() {
-	if (++called < dymoAssemblies.length) return false;
+	if(++libsMoved < dymoAssemblies.length){ return false; }
+	initReady = true;
 
-	var printers = module.exports.printers = edge.func({
+	return true;
+}
+
+for( var f of dymoAssemblies ){
+	if( fs.existsSync( path.join(libDir, f) ) ){ initDymoLib(); continue; } // Only fetch these files once
+	console.log( 'Dymo Assembly ' + f );
+	var source = path.join(dymoLibPath, f),
+		target = path.join(libDir, f);
+	var readStream = fs.createReadStream(source);
+	var writeStream = fs.createWriteStream(target);
+	readStream.on('error', function(err) { throw err });
+	writeStream.on('error', function(err) { throw err });
+	writeStream.on('finish', initDymoLib);
+	readStream.pipe(writeStream);
+}
+// Lets Make sure the Libraries are here
+//
 		assemblyFile: nodeDymoLib,
 		typeName: 'NodeDymoLib.Dymo',
 		methodName: 'Printers'
