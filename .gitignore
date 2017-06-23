@@ -33,3 +33,6 @@ node_modules
 NodeDymoLibrary.v12.suo
 NodeDymoLibrary/bin
 NodeDymoLibrary/obj
+
+# Visual Studio 
+.vs/*
