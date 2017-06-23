@@ -17,14 +17,14 @@ $ npm install dymo --save
 This impementation is still very immature and experimental.  Not production ready. YMMV.
 
 ```
-var dymo = require('dymo');
-var fs = require('fs');
+var printerDymo = require('printer-dymo'),
+	fs = require('fs');
 
 // It takes a second or two for initialization to complete.
 setTimeout(function(){
 
 	// Gets an array of IPrinter objects (Dymo printers on the current system)
-	dymo.printers(null, function(err, printers){
+	printerDymo.printers(null, function(err, printers){
 		if (err) throw err;
 		console.log(printers);
 	});
@@ -32,19 +32,22 @@ setTimeout(function(){
 	// A print object;
 	var printArgs = {
 		printer: 'DYMO LabelWriter 450 (Copy 1)',	//name of printer
-		label: 'test.label',						//path to label
-		fields: {
-			name: 'Timmy',
-			barcode: '100360931'
-		},
-		images: {
-			photo: fs.readFileSync('face.png')
-		}
+		jobTitle: 'My Sweet Labels',
+		labels:[{
+			filename: 'test.label',						//path to label
+			fields: {
+				name: 'Timmy',
+				barcode: '100360931'
+			},
+			images: {
+				photo: fs.readFileSync('face.png')
+			}
+		}]
 	};
 
-	dymo.print(printArgs, function(err, res){
+	printerDymo.print(printArgs, function(err, res){
 		if (err) throw err;
-		console.log("Print job created.");
+		console.log("Print job Created.");
 	});
 
 }, 2000);
