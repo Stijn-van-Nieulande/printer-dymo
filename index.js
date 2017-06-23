@@ -95,5 +95,37 @@ var setPrinter = module.exports.setPrinter = function( printerName ){
 	// TODO: verify that this printer exists and return errors as needed.
 	activePrinter = setPrinter;
 }
+ 
+ 
+ 
+/** Print out the label provided
+ *  parameters: Object, parameters objects with the following structure:
+		printer - String [Optional] - Name of the printer, if missing, will attempt to use the activePrinter (set by using setPrinter).
+		jobTitle - String [Optional] - Name of the job to show up in the print queue
+		labels - Object [Required] - One entry per label to print in this job.
+			filename - String [Required]
+			fields - Object [Optional] - What fields should be updated to what values
+			images - Object [Optional] - Should be a buffer of PNG images with their related keys
+	callback: a standard callback of (err, result);
+ * @return printer object info:
+ */
+var print = module.exports.print = function( parameters, callback ){
+	if( typeof callback != 'function' ){	callback = function(err, data){}	}
 
+	var dymoPrint = edge.func({
+		assemblyFile: nodeDymoLib,
+		typeName: 'NodeDymoLib.Dymo',
+		methodName: 'Print'
+	});
 
+	if( typeof parameters.printer == 'undefined' ){
+		if( activePrinter != null ){
+			parameters.printer = activePrinter
+		}else{
+			return callback( 'Must Define the `printer`' );
+		}
+	}
+	
+	dymoPrint(parameters, callback);
+	return true;
+}
