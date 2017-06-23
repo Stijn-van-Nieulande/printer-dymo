@@ -89,6 +89,11 @@ var getPrinter = module.exports.getPrinterSync = function( thisPrinterName ){
 
 	return false;
 }
+
+
+var setPrinter = module.exports.setPrinter = function( printerName ){
+	// TODO: verify that this printer exists and return errors as needed.
+	activePrinter = setPrinter;
 }
 
 
