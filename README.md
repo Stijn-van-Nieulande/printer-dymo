@@ -1,6 +1,6 @@
-# Dymo
+# Printer Dymo
 
-Node.js module for interacting with Dymo LabelWriter printers using the DLS SDK
+An Electron Node.js module for interacting with Dymo LabelWriter printers using the DLS SDK
 
 [![Code Climate](https://codeclimate.com/github/BuildingIntelligence/dymo/badges/gpa.svg)](https://codeclimate.com/github/BuildingIntelligence/dymo)
 
@@ -51,6 +51,12 @@ setTimeout(function(){
 
 ```
 
+### getPrinter
+
+### getPrinters();
+
+### getPrintersSync();
+
 ## TODO
 
 - [ ] Test coverage
@@ -73,7 +79,7 @@ For gyp you will also need:
 
 * On Windows:
   * [Python 2.7.x](https://www.python.org/getit/windows)
-  * Microsoft Visual Studio C++ 2013
+  * Microsoft Visual Studio C++ 2015
   * [Windows 64-bit SDK](https://msdn.microsoft.com/en-us/windows/desktop/bg162891.aspx)
   * [Dymo LabelWriter v8.5.1](http://download.dymo.com/dymo/Software/Win/DLS8Setup.8.5.1.exe)
 
