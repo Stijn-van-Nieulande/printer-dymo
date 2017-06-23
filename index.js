@@ -34,6 +34,12 @@ for( var f of dymoAssemblies ){
 }
 // Lets Make sure the Libraries are here
 //
+
+var ready = module.exports.ready = function(){
+	return initReady;
+}
+
+
 		assemblyFile: nodeDymoLib,
 		typeName: 'NodeDymoLib.Dymo',
 		methodName: 'Printers'
