@@ -49,7 +49,7 @@ namespace NodeDymoLib
             ILabelWriterPrintParams printParams = new LabelWriterPrintParams();
             printParams.PrintQuality = LabelWriterPrintQuality.BarcodeAndGraphics;
             printParams.JobTitle = "Dymo Labels";
-            printParams.Copies = (int)3;
+            printParams.Copies = (int)1;
             if ( parameters.ContainsKey("jobTitle") )
             {
                 Console.WriteLine("Dymo.cs Adding Print Job Title: " + (string)parameters["jobTitle"]);
