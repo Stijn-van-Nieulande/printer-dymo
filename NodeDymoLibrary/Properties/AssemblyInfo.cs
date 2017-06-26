@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NodeDymoLibrary")]
 [assembly: AssemblyDescription("Simple interface to Dymo Framework for Node.js Edge module")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Building Intelligence Inc.")]
+[assembly: AssemblyCompany("Fresh Vine")]
 [assembly: AssemblyProduct("NodeDymoLibrary")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0006b935-3631-4cd9-8b04-83faa4198722")]
+[assembly: Guid("0006b935-1905-4cd9-8b04-83faa4198722")]
 
 // Version information for an assembly consists of the following four values:
 //
