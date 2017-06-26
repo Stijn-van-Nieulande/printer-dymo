@@ -13,8 +13,10 @@ namespace NodeDymoLib
 
         public async Task<object> Printers(object input)
         {
-            IPrinters printers = new Printers();
-            return printers;
+            IPrinters thisPrinters = new Printers();
+
+            await Task.Run(() => thisPrinters );
+            return thisPrinters;
         }
 
         /*
@@ -98,7 +100,10 @@ namespace NodeDymoLib
                                 label[i].SetObjectText(k, v);
                             }
                         }
-                        catch (Exception ex) { }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
 
                     }
                 }
@@ -120,6 +125,7 @@ namespace NodeDymoLib
                         }
                         catch (Exception ex)
                         {
+                            throw ex;
                         }
                     }
                 }
