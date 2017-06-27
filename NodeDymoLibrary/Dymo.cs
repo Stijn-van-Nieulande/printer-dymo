@@ -33,11 +33,11 @@ namespace NodeDymoLib
             // Make sure the required parts exist
             if (!parameters.ContainsKey("printer"))
             {
-                Console.WriteLine("Dymo.cs No `printer` parameter");
+                Console.WriteLine("NodeDymoLibrary No `printer` parameter");
                 throw new System.ArgumentException("'printer' parameter must be defined", "original");
             } else if (!parameters.ContainsKey("labels"))
             {
-                Console.WriteLine("Dymo.cs No `labels` parameter");
+                Console.WriteLine("NodeDymoLibrary No `labels` parameter");
                 throw new System.ArgumentException("'labels' parameter must be defined", "original");
             }
 
@@ -54,18 +54,19 @@ namespace NodeDymoLib
             printParams.Copies = (int)1;
             if ( parameters.ContainsKey("jobTitle") )
             {
-                Console.WriteLine("Dymo.cs Adding Print Job Title: " + (string)parameters["jobTitle"]);
+                Console.WriteLine("NodeDymoLibrary Adding Print Job Title: " + (string)parameters["jobTitle"]);
                 printParams.JobTitle = (string)parameters["jobTitle"];
             }
             if( parameters.ContainsKey("copies") )
             {
-                Console.WriteLine("Dymo.cs Adding Print Copies: " + (string)parameters["copies"]);
+                Console.WriteLine("NodeDymoLibrary Adding Print Copies: " + (string)parameters["copies"]);
                 printParams.Copies = (int)parameters["copies"];
             }
             // Set some settings for this printing
             //
 
             IPrintJob printJob = printer.CreatePrintJob( printParams );
+            Console.WriteLine("NodeDymoLibrary Print Job Created");
 
             //
             // Lets loop over these labels
@@ -78,15 +79,17 @@ namespace NodeDymoLib
                 //IDictionary<string, object> thisLabel = (IDictionary<string, object>) lkv.Value;
 
                 //IDictionary<string, object> thisLabel = (IDictionary<string, object>)suppliedLabels[i];
-                if(  !thisLabel.ContainsKey("filename"))
+                if( !thisLabel.ContainsKey("filename") )
                 {
                     Console.WriteLine("Dymo.cs No `labels`[x].`filename` parameter");
                     throw new System.ArgumentException("'labels'.'filename' parameter must be defined for each label", "original");
                 }
 
+                Console.WriteLine("NodeDymoLibrary Adding label: " + (string)thisLabel["filename"] );
                 label[i] = Label.Open( (string)thisLabel["filename"] );
-                if(thisLabel.ContainsKey("fields") )
+                if( thisLabel.ContainsKey("fields") )
                 {
+                    Console.WriteLine("NodeDymoLibrary Setting Field Values");
                     IDictionary<string, object> fields = (IDictionary<string, object>)thisLabel["fields"];
                     foreach (var kv in fields)
                     {
@@ -108,8 +111,9 @@ namespace NodeDymoLib
                     }
                 }
 
-                if (null != thisLabel["images"])
+                if( thisLabel.ContainsKey("images") )
                 {
+                    Console.WriteLine("NodeDymoLibrary Setting Image Values");
                     IDictionary<string, object> images = (IDictionary<string, object>)thisLabel["images"];
                     foreach (var kv in images)
                     {
@@ -130,10 +134,13 @@ namespace NodeDymoLib
                     }
                 }
 
+
+                Console.WriteLine("NodeDymoLibrary Add Label to print job");
                 printJob.AddLabel(label[i]);
             }
 
-            
+
+            Console.WriteLine("NodeDymoLibrary Lets Print Dat Label/s");
             await Task.Run(() => printJob.Print() );
             return args;
         }
