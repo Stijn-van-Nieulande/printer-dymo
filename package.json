@@ -34,7 +34,7 @@
     "mocha": "^2.3.3"
   },
   "dependencies": {
-    "electron-edge": "kexplo/electron-edge#electron_v1.6.2",
+    "electron-edge": "paulprins/electron-edge#electron_v1.6.2",
     "fs": "0.0.1-security",
     "path": "^0.12.7"
   }
