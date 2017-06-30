@@ -33,7 +33,7 @@ namespace NodeDymoLib
 		 *
 		 *
 		 */
-        public async Task<bool> Print(object args)
+        public async Task<object> Print(object args)
         {
             IDictionary<string, object> parameters = (IDictionary<string, object>)args;
 
