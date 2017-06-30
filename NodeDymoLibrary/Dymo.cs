@@ -11,12 +11,11 @@ namespace NodeDymoLib
     public class Dymo
     {
 
-        public async Task<object> Printers(object input)
+        public async Task<IPrinters> Printers(object input)
         {
-            IPrinters thisPrinters = new Printers();
+            IPrinters thePrinters = await Task.Run(() => new Printers());
 
-            await Task.Run(() => thisPrinters );
-            return thisPrinters;
+            return thePrinters;
         }
 
         /*
@@ -25,7 +24,7 @@ namespace NodeDymoLib
 		 *
 		 *
 		 */
-        public async Task<object> Print(object args)
+        public async Task<bool> Print(object args)
         {
             IDictionary<string, object> parameters = (IDictionary<string, object>)args;
 
@@ -84,6 +83,11 @@ namespace NodeDymoLib
                     Console.WriteLine("Dymo.cs No `labels`[x].`filename` parameter");
                     throw new System.ArgumentException("'labels'.'filename' parameter must be defined for each label", "original");
                 }
+                if( !File.Exists( (string)thisLabel["filename"] ))
+                {
+                    Console.WriteLine("Dymo.cs Unable to find label filename: " + (string)thisLabel["filename"]);
+                    throw new System.ArgumentException("'labels'.'filename' parameter must point to an existing file", "original");
+                }
 
                 Console.WriteLine("NodeDymoLibrary Adding label: " + (string)thisLabel["filename"] );
                 label[i] = Label.Open( (string)thisLabel["filename"] );
@@ -140,9 +144,10 @@ namespace NodeDymoLib
             }
 
 
-            Console.WriteLine("NodeDymoLibrary Lets Print Dat Label/s");
+            Console.WriteLine("NodeDymoLibrary Lets Print the Label/s");
             await Task.Run(() => printJob.Print() );
-            return args;
+            Console.WriteLine("NodeDymoLibrary Label/s Printed");
+            return true;
         }
     }
 }
