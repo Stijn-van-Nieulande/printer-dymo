@@ -13,8 +13,17 @@ namespace NodeDymoLib
 
         public async Task<IPrinters> Printers(object input)
         {
-            IPrinters thePrinters = await Task.Run(() => new Printers());
+            IPrinters thePrinters;
 
+            try
+            {
+                thePrinters = await Task.Run(() => new Printers());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+     
             return thePrinters;
         }
 
@@ -145,7 +154,15 @@ namespace NodeDymoLib
 
 
             Console.WriteLine("NodeDymoLibrary Lets Print the Label/s");
-            await Task.Run(() => printJob.Print() );
+            try
+            {
+                await Task.Run(() => printJob.Print());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
             Console.WriteLine("NodeDymoLibrary Label/s Printed");
             return true;
         }
