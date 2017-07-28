@@ -59,27 +59,27 @@ var ready = module.exports.ready = function(){
  */
  var getPrintersSync = module.exports.getPrintersSync = function(){
 	if( initReady != true ){	}
-	
+
 	var availablePrinters = edge.func({
 		assemblyFile: nodeDymoLib,
 		typeName: 'NodeDymoLib.Dymo',
 		methodName: 'Printers'
 	});
 
-	return availablePrinters( '', true );
+	return availablePrinters( null, true );
 }
 
 
 var getPrinter = module.exports.getPrinterSync = function( thisPrinterName ){
 	if( thisPrinterName == '' ){ return true; }
-	
+
 	var availablePrinters = edge.func({
 		assemblyFile: nodeDymoLib,
 		typeName: 'NodeDymoLib.Dymo',
 		methodName: 'Printers'
 	});
 
-	var tempPrinters = availablePrinters( '', true );
+	var tempPrinters = availablePrinters( null, true );
 	for( var i in tempPrinters ){
 		console.log( tempPrinters[i] );
 		if( tempPrinters[i].Name == thisPrinterName ){
@@ -95,9 +95,9 @@ var setPrinter = module.exports.setPrinter = function( printerName ){
 	// TODO: verify that this printer exists and return errors as needed.
 	activePrinter = setPrinter;
 }
- 
- 
- 
+
+
+
 /** Print out the label provided
  *  parameters: Object, parameters objects with the following structure:
 		printer - String [Optional] - Name of the printer, if missing, will attempt to use the activePrinter (set by using setPrinter).
@@ -125,7 +125,7 @@ var print = module.exports.print = function( parameters, callback ){
 			return callback( 'Must Define the `printer`' );
 		}
 	}
-	
+
 	dymoPrint(parameters, callback);
 	return true;
 }
