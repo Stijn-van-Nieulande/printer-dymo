@@ -119,7 +119,16 @@ var print = module.exports.print = function( parameters, callback ){
 	var dymoPrint = edge.func({
 		assemblyFile: nodeDymoLib,
 		typeName: 'NodeDymoLib.Dymo',
-		methodName: 'PrintLabelsAsync'
+		methodName: 'PrintLabelsAsync',
+		references: [
+				path.join(libDir, 'DYMO.Label.Framework.dll'),
+				path.join(libDir, 'DYMO.DLS.Runtime.dll'),
+				path.join(libDir, 'DYMO.Common.dll'),
+				path.join(libDir, 'x86', 'DYMOPrinting.dll'),
+				path.join(libDir, 'x86', 'PrintingSupportLibrary.dll'),
+				path.join(libDir, 'x64', 'DYMOPrinting.dll'),
+				path.join(libDir, 'x64', 'PrintingSupportLibrary.dll')
+		]
 	});
 
 	if( typeof parameters.printer == 'undefined' ){
