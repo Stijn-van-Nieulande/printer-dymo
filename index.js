@@ -124,8 +124,8 @@ var print = module.exports.print = function( parameters, callback ){
 				path.join(libDir, 'DYMO.Label.Framework.dll'),
 				path.join(libDir, 'DYMO.DLS.Runtime.dll'),
 				path.join(libDir, 'DYMO.Common.dll'),
-				path.join(libDir, 'x86', 'DYMOPrinting.dll'),
-				path.join(libDir, 'x86', 'PrintingSupportLibrary.dll'),
+				path.join(libDir, 'DYMOPrinting.dll'),
+				path.join(libDir, 'PrintingSupportLibrary.dll'),
 				path.join(libDir, 'x64', 'DYMOPrinting.dll'),
 				path.join(libDir, 'x64', 'PrintingSupportLibrary.dll')
 		]
