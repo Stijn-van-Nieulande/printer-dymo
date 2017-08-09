@@ -36,3 +36,4 @@ NodeDymoLibrary/obj
 
 # Visual Studio 
 .vs/*
+NodeDymoLibrary/.vs/*
