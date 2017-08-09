@@ -36,37 +36,41 @@ for( var f of dymoAssemblies ){
 //
 
 var ready = module.exports.ready = function(){
+	console.log("Printer-Dymo: ready() triggered");
 	return initReady;
 }
 
 
 /** Get a list of all the printers
- * @param printerName printer name to extract the info
  * @return printer object info:
  */
- var getPrinters = module.exports.getPrinters = function( callback ){
-	var availablePrinters = edge.func({
-		assemblyFile: nodeDymoLib,
-		typeName: 'NodeDymoLib.Dymo',
-		methodName: 'Printers'
-	});
-	availablePrinters('', callback );
-	return;
-}
-
-/**
- *	Same as getPrinters but syncronice
- */
- var getPrintersSync = module.exports.getPrintersSync = function(){
+ var getPrintersAsync = module.exports.getPrintersAsync = function( callback ){
+	console.log("Printer-Dymo: getPrinterAsync() triggered");
 	if( initReady != true ){	}
 
 	var availablePrinters = edge.func({
 		assemblyFile: nodeDymoLib,
 		typeName: 'NodeDymoLib.Dymo',
-		methodName: 'Printers'
+		methodName: 'GetPrintersAsync'
 	});
 
-	return availablePrinters( null, true );
+	availablePrinters( '', callback );
+}
+
+/**
+ *	Same as getPrinters but syncronice
+ */
+ var getPrinters = module.exports.getPrinters = function(){
+	console.log("Printer-Dymo: getPrinters() triggered");
+	if( initReady != true ){	}
+
+	var availablePrinters = edge.func({
+		assemblyFile: nodeDymoLib,
+		typeName: 'NodeDymoLib.Dymo',
+		methodName: 'GetPrinters'
+	});
+
+	return availablePrinters( '', true );
 }
 
 
@@ -76,10 +80,10 @@ var getPrinter = module.exports.getPrinterSync = function( thisPrinterName ){
 	var availablePrinters = edge.func({
 		assemblyFile: nodeDymoLib,
 		typeName: 'NodeDymoLib.Dymo',
-		methodName: 'Printers'
+		methodName: 'GetPrinters'
 	});
 
-	var tempPrinters = availablePrinters( null, true );
+	var tempPrinters = availablePrinters( '', true );
 	for( var i in tempPrinters ){
 		console.log( tempPrinters[i] );
 		if( tempPrinters[i].Name == thisPrinterName ){
@@ -115,7 +119,7 @@ var print = module.exports.print = function( parameters, callback ){
 	var dymoPrint = edge.func({
 		assemblyFile: nodeDymoLib,
 		typeName: 'NodeDymoLib.Dymo',
-		methodName: 'Print'
+		methodName: 'PrintLabelsAsync'
 	});
 
 	if( typeof parameters.printer == 'undefined' ){
@@ -127,5 +131,4 @@ var print = module.exports.print = function( parameters, callback ){
 	}
 
 	dymoPrint(parameters, callback);
-	return true;
 }

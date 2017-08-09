@@ -1,32 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Dynamic;
-using System.Threading.Tasks;
-using System.IO;
 using DYMO.Label.Framework;
 using Microsoft.CSharp;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NodeDymoLib
 {
     public class Dymo
     {
-
-        public async Task<IPrinters> Printers(dynamic input)
+        public async Task<object> GetPrintersAsync(dynamic input)
         {
-            IPrinters thePrinters;
+            Debug.WriteLine("NodeDymoLibrary: GetPrintersAsync() called");
+            Task<object> getPrintersTask = GetPrinters(input);
 
-            try
-            {
-                thePrinters = await Task.Run(() => new Printers());
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Debug.WriteLine("NodeDymoLibrary: GetPrintersAsync() pre await");
+            object response = await getPrintersTask;
 
-            return thePrinters;
+
+            return response;
+        }
+
+
+        public async Task<object> GetPrinters(dynamic input)
+        {
+            Debug.WriteLine("NodeDymoLibrary: GetPrinters() called");
+
+            IPrinters temp = new Printers();
+            return (object)temp.Cast<IPrinter>().ToList();
         }
 
         /*
@@ -35,25 +40,39 @@ namespace NodeDymoLib
 		 *
 		 *
 		 */
-        public async Task<object> Print(dynamic jobDetails)
+        public async Task<object> PrintLabelsAsync(dynamic jobDetails)
         {
-            Console.WriteLine("NodeDymoLibrary: print() called");
-            Console.WriteLine(jobDetails.printer);
+            Debug.WriteLine("NodeDymoLibrary: PrintLabelsAsync() called");
+            Task<object> printLabelsTask = PrintLabels(jobDetails);
+
+            Debug.WriteLine("NodeDymoLibrary: PrintLabelsAsync() pre await");
+            object response = await printLabelsTask;
+
+
+            return response;
+        }
+
+
+        public async Task<object> PrintLabels(dynamic jobDetails)
+        {
+            Debug.WriteLine("NodeDymoLibrary: PrintLabels() called");
+            // Debug.WriteLine(jobDetails.printer);
             //
             // Make sure the required parts exist
-            if( !PropertyExists(jobDetails, "printer" ) )
+            if (!PropertyExists(jobDetails, "printer"))
             {
-                Console.WriteLine("NodeDymoLibrary: No `printer` parameter");
+                Debug.WriteLine("NodeDymoLibrary: No `printer` parameter");
                 throw new System.ArgumentException("'printer' parameter must be defined", "original");
-            } else if( !PropertyExists(jobDetails, "labels" ) )
+            }
+            else if (!PropertyExists(jobDetails, "labels"))
             {
-                Console.WriteLine("NodeDymoLibrary: No `labels` parameter");
+                Debug.WriteLine("NodeDymoLibrary: No `labels` parameter");
                 throw new System.ArgumentException("'labels' parameter must be defined", "original");
             }
             else
             {
-                Console.WriteLine("NodeDymoLibrary: Required base parameters defined");
-                Console.WriteLine(jobDetails.printer);
+                Debug.WriteLine("NodeDymoLibrary: Required base parameters defined");
+                //Debug.WriteLine(jobDetails.printer);
             }
 
             //
@@ -66,7 +85,7 @@ namespace NodeDymoLib
             }
             catch (Exception ex)
             {
-                Console.WriteLine("NodeDymoLibrary: unable to find printer");
+                Debug.WriteLine("NodeDymoLibrary: unable to find printer");
                 throw ex;
             }
 
@@ -76,21 +95,21 @@ namespace NodeDymoLib
             printParams.PrintQuality = LabelWriterPrintQuality.BarcodeAndGraphics;
             printParams.JobTitle = "Dymo Labels";
             printParams.Copies = (int)1;
-            if( PropertyExists(jobDetails, "jobTitle") )
+            if (PropertyExists(jobDetails, "jobTitle"))
             {
-                Console.WriteLine("NodeDymoLibrary Adding Print Job Title: " + (string)jobDetails.jobTitle);
+                Debug.WriteLine("NodeDymoLibrary Adding Print Job Title: " + (string)jobDetails.jobTitle);
                 printParams.JobTitle = (string)jobDetails.jobTitle;
             }
-            if( PropertyExists(jobDetails, "copies" ) )
+            if (PropertyExists(jobDetails, "copies"))
             {
-                Console.WriteLine("NodeDymoLibrary Adding Print Copies: " + (string)jobDetails.copies);
+                Debug.WriteLine("NodeDymoLibrary Adding Print Copies: " + (string)jobDetails.copies);
                 printParams.Copies = (int)jobDetails.copies;
             }
             // Set some settings for this printing 
             //
 
-            IPrintJob printJob = printer.CreatePrintJob( printParams );
-            Console.WriteLine("NodeDymoLibrary Print Job Created");
+            IPrintJob printJob = printer.CreatePrintJob(printParams);
+            Debug.WriteLine("NodeDymoLibrary Print Job Created");
 
             //
             // Lets loop over these labels
@@ -99,22 +118,30 @@ namespace NodeDymoLib
             foreach (IDictionary<string, object> thisLabel in suppliedLabels)
             {
                 var i = label.Count.ToString();
-                if( !thisLabel.ContainsKey("filename") )
+                if (!thisLabel.ContainsKey("filename"))
                 {
-                    Console.WriteLine("Dymo.cs No `labels`[x].`filename` parameter");
+                    Debug.WriteLine("Dymo.cs No `labels`[x].`filename` parameter");
                     throw new System.ArgumentException("'labels'.'filename' parameter must be defined for each label", "original");
                 }
-                if( !File.Exists( (string)thisLabel["filename"] ))
+//                if (!File.Exists((string)thisLabel["filename"]))
+//                {
+//                    Debug.WriteLine("Dymo.cs Unable to find label filename: " + (string)thisLabel["filename"]);
+//                    throw new System.ArgumentException("'labels'.'filename' parameter must point to an existing file", "original");
+//                }
+
+                Debug.WriteLine("NodeDymoLibrary Adding label: " + (string)thisLabel["filename"]);
+                try
                 {
-                    Console.WriteLine("Dymo.cs Unable to find label filename: " + (string)thisLabel["filename"]);
-                    throw new System.ArgumentException("'labels'.'filename' parameter must point to an existing file", "original");
+                    label[i] = Label.Open((string)thisLabel["filename"]);
+                }
+                catch( Exception ex)
+                {
+                    throw ex;
                 }
 
-                Console.WriteLine("NodeDymoLibrary Adding label: " + (string)thisLabel["filename"] );
-                label[i] = Label.Open( (string)thisLabel["filename"] );
-                if( thisLabel.ContainsKey("fields") )
+                if (thisLabel.ContainsKey("fields"))
                 {
-                    Console.WriteLine("NodeDymoLibrary Setting Field Values");
+                    Debug.WriteLine("NodeDymoLibrary Setting Field Values");
                     IDictionary<string, object> fields = (IDictionary<string, object>)thisLabel["fields"];
                     foreach (var kv in fields)
                     {
@@ -136,9 +163,9 @@ namespace NodeDymoLib
                     }
                 }
 
-                if( thisLabel.ContainsKey("images") )
+                if (thisLabel.ContainsKey("images"))
                 {
-                    Console.WriteLine("NodeDymoLibrary Setting Image Values");
+                    Debug.WriteLine("NodeDymoLibrary Setting Image Values");
                     IDictionary<string, object> images = (IDictionary<string, object>)thisLabel["images"];
                     foreach (var kv in images)
                     {
@@ -160,29 +187,29 @@ namespace NodeDymoLib
                 }
 
 
-                Console.WriteLine("NodeDymoLibrary Add Label to print job");
+                Debug.WriteLine("NodeDymoLibrary Add Label to print job");
                 printJob.AddLabel(label[i]);
             }
 
 
-            Console.WriteLine("NodeDymoLibrary Lets Print the Label/s");
+            Debug.WriteLine("NodeDymoLibrary Lets Print the Label/s");
             try
             {
-                await Task.Run(() => printJob.Print());
+                printJob.Print();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
 
-            Console.WriteLine("NodeDymoLibrary Label/s Printed");
+            Debug.WriteLine("NodeDymoLibrary Label/s Printed");
             return true;
         }
 
-        private static bool PropertyExists( dynamic source, string propertyName)
+        private static bool PropertyExists(dynamic source, string propertyName)
         {
             if (source is ExpandoObject)
-                return ((IDictionary < string, object >)source).ContainsKey(propertyName);
+                return ((IDictionary<string, object>)source).ContainsKey(propertyName);
 
             return source.GetType().GetProperty(propertyName) != null;
         }
