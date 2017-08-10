@@ -1,18 +1,18 @@
 # Printer Dymo
 
-An Electron Node.js module for interacting with Dymo LabelWriter printers using the DLS SDK
+An Electron Node.js module for interacting with Dymo LabelWriter printers using the [DLS SDK](http://developers.dymo.com/). This library is built and maintained by [Paul Prins](https://github.com/paulprins/) of [Fresh Vine](https://freshvine.co/) for their [Event Kiosk](https://freshvine.co/Event-Kiosk/).
 
 ## Installation
 
 You will need the latest [Dymo LabelWriter software](http://download.dymo.com/dymo/Software/Win/DLS8Setup.8.5.1.exe) installed first.  This provides all of the dependent Dymo libraries.
 
 ``` bash
-$ npm install dymo --save
+$ npm install printer-dymo --save
 ```
 
 ## Use
 
-This impementation is still very immature and experimental.  Not production ready. YMMV.
+This impementation is still very young but is production ready.
 
 ```
 var printerDymo = require('printer-dymo'),
@@ -22,17 +22,17 @@ var printerDymo = require('printer-dymo'),
 setTimeout(function(){
 
 	// Gets an array of IPrinter objects (Dymo printers on the current system)
-	printerDymo.printers(null, function(err, printers){
+	printerDymo.getPrintersAsync(null, function(err, printers){
 		if (err) throw err;
 		console.log(printers);
 	});
 
 	// A print object;
 	var printArgs = {
-		printer: 'DYMO LabelWriter 450 (Copy 1)',	//name of printer
+		printer: 'DYMO LabelWriter 450',	//name of printer
 		jobTitle: 'My Sweet Labels',
 		labels:[{
-			filename: 'test.label',						//path to label
+			filename: 'test.label',		//path to label
 			fields: {
 				name: 'Timmy',
 				barcode: '100360931'
@@ -45,7 +45,7 @@ setTimeout(function(){
 
 	printerDymo.print(printArgs, function(err, res){
 		if (err) throw err;
-		console.log("Print job Created.");
+		console.log("Finished Printing.");
 	});
 
 }, 2000);
@@ -60,11 +60,11 @@ setTimeout(function(){
 
 ## TODO
 
-- [ ] Test coverage
-- [ ] Build instructions
-- [ ] Make use of EventEmitter and fire Ready event after initialization
-- [ ] Improve API
-- [ ] Travis CI
+- [x] Test coverage  
+- [x] Build instructions  
+- [ ] Make use of EventEmitter and fire Ready event after initialization  
+- [ ] Improve API  
+- [ ] Travis CI  
 
 ## Building
 
@@ -101,4 +101,9 @@ Lint and test your code.
 
 ## Release History
 
-* 0.0.1 Initial release; Module boilerplate
+* 1.0.0 Rebuilt the C# library as a shared library resource and not have Synchronous & Asynchronous functions.  
+	Now includes 2 missing DYMO libraries (`DYMOPrinting.dll` & `PrintingSupportLibrary.dll`) that caused errors when deployed. These are included with both x86 & x64 flavors. 
+* 0.4.0 Refactored C# `dymo.cs` to use dynamic variables inplace of object variables.  
+* 0.1.0 Fix: Had default print copies set to 3 for testing that was committed.  
+* 0.0.3 Printing multiple labels in a single print job.  
+* 0.0.1 Initial release; Module boilerplate.  
