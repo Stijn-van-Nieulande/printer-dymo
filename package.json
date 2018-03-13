@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "An Electron Node.js addon for interfacing with Dymo LabelWriter printers",
   "main": "index.js",
+  "license" : "GNU-V3",
   "scripts": {
     "test": "mocha"
   },
