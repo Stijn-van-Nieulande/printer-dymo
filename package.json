@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "An Electron Node.js addon for interfacing with Dymo LabelWriter printers",
   "main": "index.js",
-  "license" : "GNU-V3",
   "scripts": {
     "test": "mocha"
   },
@@ -22,7 +21,7 @@
     "Paul Prins (https://github.com/paulprins)",
     "Travis Sinnott <travis@buildingintelligence.com>"
   ],
-  "license": "GPL-2.0",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/FreshVine/printer-dymo/issues"
   },
