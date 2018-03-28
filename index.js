@@ -1,6 +1,6 @@
 var path = require('path'),
 	fs = require('fs'),
-	edge = require('electron-edge'),
+	edge = require('electron-edge-js'),
 	activePrinter,
 	initReady = false;
 
