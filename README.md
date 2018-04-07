@@ -80,17 +80,60 @@ For gyp you will also need:
 
 * On Windows:
   * [Python 2.7.x](https://www.python.org/getit/windows)
-  * Microsoft Visual Studio C++ 2015
+  * Microsoft Visual Studio C++ 2015/7
   * [Windows 64-bit SDK](https://msdn.microsoft.com/en-us/windows/desktop/bg162891.aspx)
   * [Dymo LabelWriter v8.5.1](http://download.dymo.com/dymo/Software/Win/DLS8Setup.8.5.1.exe)
 
+
+### Including .NetFramework for Windows Deployments with Electron.json
+
+In order for the **electron-edge-js** library to work correctly the client computer must have the .NetFramwork 4.5 installed. So you can either require them to install this (which will likely just lead to higher support volume to explain this), or you can include the needed library items in your build.  
+  
+To include the required DLLs you should download them from microsoft - [download .NetFramework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=30653). You need 4 of these libraries (concrt140.dll, msvcp140.dll, vccorlib140.dll, vcruntime140.dll). Electron Builder makes it easy to use architecture in their `extraFiles` ([docs](https://www.electron.build/configuration/contents)). The code below will grab every file in the `extraLib/dotNetFramework/x64/` directory for an x64 build on windows, and place it in the application root directory. Using the dependency walker we were able to verify that the application utilized these files, instead of those on (or missing from) the client system. 
+
+
+```json
+{
+	...
+	"build": {
+		...
+
+		"files": [
+			"!**/extraLib/**/*"
+		],
+		"win": {
+			"extraFiles": [
+				{
+					"from": "extraLib/dotNetFramework/${arch}/",
+					"to": "",
+					"filter": "**/*"
+				}
+			]
+		}
+		...
+	}
+	...
+}
+```
+
+We deploy to both x64 and ia32. Make sure the correctly build libraries are in the correct locations. Our paths look like:  
+
+	extraLib/dotNetFramework/ia32/concrt140.dll
+	extraLib/dotNetFramework/ia32/msvcp140.dll
+	extraLib/dotNetFramework/ia32/vccorlib140.dll
+	extraLib/dotNetFramework/ia32/vcruntime140.dll
+	extraLib/dotNetFramework/x64/concrt140.dll
+	extraLib/dotNetFramework/x64/msvcp140.dll
+	extraLib/dotNetFramework/x64/vccorlib140.dll
+	extraLib/dotNetFramework/x64/vcruntime140.dll
+
+These files are not included here to allow for flexibility in use. Also you may have other libraries that make use of this framework, and including it multiple times would add overhead to your project.
 
 ## Publishing
 
 ``` bash
 npm pack
 npm publish
-
 ```
 
 ## Contributing
@@ -101,6 +144,7 @@ Lint and test your code.
 
 ## Release History
 
+* 1.0.2 Update readme with better implementation instructions.
 * 1.0.1 Changed to `electron-edge-js` from `electron-edge` as it has wider support.
 * 1.0.0 Rebuilt the C# library as a shared library resource and not have Synchronous & Asynchronous functions.  
 	Now includes 2 missing DYMO libraries (`DYMOPrinting.dll` & `PrintingSupportLibrary.dll`) that caused errors when deployed. These are included with both x86 & x64 flavors. 

@@ -1,6 +1,6 @@
 {
   "name": "printer-dymo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An Electron Node.js addon for interfacing with Dymo LabelWriter printers",
   "main": "index.js",
   "scripts": {
