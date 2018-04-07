@@ -148,7 +148,7 @@ Lint and test your code.
 * 1.0.1 Changed to `electron-edge-js` from `electron-edge` as it has wider support.
 * 1.0.0 Rebuilt the C# library as a shared library resource and not have Synchronous & Asynchronous functions.  
 	Now includes 2 missing DYMO libraries (`DYMOPrinting.dll` & `PrintingSupportLibrary.dll`) that caused errors when deployed. These are included with both x86 & x64 flavors. 
-* 0.4.0 Refactored C# `dymo.cs` to use dynamic variables inplace of object variables.  
+* 0.4.0 Refactored C# `dymo.cs` to use dynamic variables in place of object variables.  
 * 0.1.0 Fix: Had default print copies set to 3 for testing that was committed.  
 * 0.0.3 Printing multiple labels in a single print job.  
 * 0.0.1 Initial release; Module boilerplate.  
