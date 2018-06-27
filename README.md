@@ -151,7 +151,7 @@ Lint and test your code.
 
 ## Release History
 
-* 1.0.3 Update the DYMO DLLs to fix the printing delay introduced in April 2018.
+* 1.0.3 Update the DYMO DLLs to fix the printing delay introduced in April 2018, add new print parameter for quality level. Fixed the printing copies parameter (had a type conversion exception thrown).
 * 1.0.2 Update readme with better implementation instructions.
 * 1.0.1 Changed to `electron-edge-js` from `electron-edge` as it has wider support.
 * 1.0.0 Rebuilt the C# library as a shared library resource and not have Synchronous & Asynchronous functions.  
