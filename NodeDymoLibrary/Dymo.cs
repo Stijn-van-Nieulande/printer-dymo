@@ -92,9 +92,15 @@ namespace NodeDymoLib
             //
             // Set some settings for this printing
             ILabelWriterPrintParams printParams = new LabelWriterPrintParams();
-            printParams.PrintQuality = LabelWriterPrintQuality.BarcodeAndGraphics;
+            printParams.PrintQuality = LabelWriterPrintQuality.Auto;
             printParams.JobTitle = "Dymo Labels";
             printParams.Copies = (int)1;
+            if (PropertyExists(jobDetails, "quality"))
+            {
+                int tempQuality = Convert.ToInt16(jobDetails.quality);
+                Debug.WriteLine("NodeDymoLibrary: Setting Print Quality to - " + tempQuality);
+                printParams.PrintQuality = (LabelWriterPrintQuality)tempQuality;
+            }
             if (PropertyExists(jobDetails, "jobTitle"))
             {
                 Debug.WriteLine("NodeDymoLibrary: Adding Print Job Title - " + (string)jobDetails.jobTitle);
@@ -102,8 +108,9 @@ namespace NodeDymoLib
             }
             if (PropertyExists(jobDetails, "copies"))
             {
-                Debug.WriteLine("NodeDymoLibrary: Adding Print Copies - " + (string)jobDetails.copies);
-                printParams.Copies = (int)jobDetails.copies;
+                int tempCopies = Convert.ToInt16(jobDetails.copies);
+                Debug.WriteLine("NodeDymoLibrary: Adding Print Copies - " + tempCopies);
+                printParams.Copies = tempCopies;
             }
             // Set some settings for this printing 
             //
@@ -190,8 +197,7 @@ namespace NodeDymoLib
                 Debug.WriteLine("NodeDymoLibrary: Add Label to print job");
                 printJob.AddLabel(label[i]);
             }
-
-
+            
             Debug.WriteLine("NodeDymoLibrary: Lets Print the Label/s");
             try
             {

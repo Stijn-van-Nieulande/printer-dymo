@@ -105,7 +105,9 @@ var setPrinter = module.exports.setPrinter = function( printerName ){
 /** Print out the label provided
  *  parameters: Object, parameters objects with the following structure:
 		printer - String [Optional] - Name of the printer, if missing, will attempt to use the activePrinter (set by using setPrinter).
-		jobTitle - String [Optional] - Name of the job to show up in the print queue
+		jobTitle - String [Optional] - Name of the job to show up in the print queue (default: "Dymo Labels")
+		quality - Integer [Optional] - Level of quality to print out: 0 = Text, 1 = BarcodeAndGraphics, & 2 = Auto. (default: Auto)
+		copies - Integer [Optional] - Number of copies to print (default: 1)
 		labels - Object [Required] - One entry per label to print in this job.
 			filename - String [Required]
 			fields - Object [Optional] - What fields should be updated to what values
