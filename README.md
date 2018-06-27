@@ -82,8 +82,13 @@ For gyp you will also need:
   * [Python 2.7.x](https://www.python.org/getit/windows)
   * Microsoft Visual Studio C++ 2015
   * [Windows 64-bit SDK](https://msdn.microsoft.com/en-us/windows/desktop/bg162891.aspx)
-  * [Dymo LabelWriter v8.5.1](http://download.dymo.com/dymo/Software/Win/DLS8Setup.8.5.1.exe)
+  * [Dymo LabelWriter v8.7.2](http://download.dymo.com/dymo/Software/Win/DLS8Setup.8.5.1.exe)
 
+### Updating Dymo included DLLs
+
+To get the DLLs to include in the project you need to install the DLS software from DYMO. The 32 bit versions are placed into the base install directory (c:\Program Files (x86)\DYMO\DYMO Label Software), and the 64 bit versions are in the x64 folder off that base directory. Beyond that there is a `DYMO.Label.Framework.dll` file located in the 'Framework' directory.
+
+Whenever there is an update to the DYMO DLS we should update these libraries if there are any differences.
 
 ## Publishing
 
@@ -102,7 +107,7 @@ Lint and test your code.
 ## Release History
 
 * 1.0.0 Rebuilt the C# library as a shared library resource and not have Synchronous & Asynchronous functions.  
-	Now includes 2 missing DYMO libraries (`DYMOPrinting.dll` & `PrintingSupportLibrary.dll`) that caused errors when deployed. These are included with both x86 & x64 flavors. 
+	Now includes 2 missing DYMO libraries (`DYMOPrinting.dll` & `PrintingSupportLibrary.dll`) that caused errors when deployed. These are included with both x86 & x64 flavors.
 * 0.4.0 Refactored C# `dymo.cs` to use dynamic variables inplace of object variables.  
 * 0.1.0 Fix: Had default print copies set to 3 for testing that was committed.  
 * 0.0.3 Printing multiple labels in a single print job.  
