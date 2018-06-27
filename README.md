@@ -2,6 +2,8 @@
 
 An Electron Node.js module for interacting with Dymo LabelWriter printers using the [DLS SDK](http://developers.dymo.com/). This library is built and maintained by [Paul Prins](https://github.com/paulprins/) of [Fresh Vine](https://freshvine.co/) for their [Event Kiosk](https://freshvine.co/Event-Kiosk/).
 
+The documentation for the SDK is located in the [SDK sample file](http://developers.dymo.com/2016/11/29/sample-samples-samples/) from DYMO. You can [download it from here](http://www.labelwriter.com/software/dls/sdk/samples/SDKSamples.zip).
+
 ## Installation
 
 You will need the latest [Dymo LabelWriter software](http://download.dymo.com/dymo/Software/Win/DLS8Setup.8.5.1.exe) installed first.  This provides all of the dependent Dymo libraries.
@@ -106,6 +108,7 @@ Lint and test your code.
 
 ## Release History
 
+* 1.0.1 Update the DYMO dlls to fix the printing delay introduced in April 2018.
 * 1.0.0 Rebuilt the C# library as a shared library resource and not have Synchronous & Asynchronous functions.  
 	Now includes 2 missing DYMO libraries (`DYMOPrinting.dll` & `PrintingSupportLibrary.dll`) that caused errors when deployed. These are included with both x86 & x64 flavors.
 * 0.4.0 Refactored C# `dymo.cs` to use dynamic variables inplace of object variables.  
