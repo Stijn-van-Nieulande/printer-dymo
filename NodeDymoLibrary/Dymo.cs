@@ -97,19 +97,19 @@ namespace NodeDymoLib
             printParams.Copies = (int)1;
             if (PropertyExists(jobDetails, "jobTitle"))
             {
-                Debug.WriteLine("NodeDymoLibrary Adding Print Job Title: " + (string)jobDetails.jobTitle);
+                Debug.WriteLine("NodeDymoLibrary: Adding Print Job Title - " + (string)jobDetails.jobTitle);
                 printParams.JobTitle = (string)jobDetails.jobTitle;
             }
             if (PropertyExists(jobDetails, "copies"))
             {
-                Debug.WriteLine("NodeDymoLibrary Adding Print Copies: " + (string)jobDetails.copies);
+                Debug.WriteLine("NodeDymoLibrary: Adding Print Copies - " + (string)jobDetails.copies);
                 printParams.Copies = (int)jobDetails.copies;
             }
             // Set some settings for this printing 
             //
 
             IPrintJob printJob = printer.CreatePrintJob(printParams);
-            Debug.WriteLine("NodeDymoLibrary Print Job Created");
+            Debug.WriteLine("NodeDymoLibrary: Print Job Created");
 
             //
             // Lets loop over these labels
@@ -120,7 +120,7 @@ namespace NodeDymoLib
                 var i = label.Count.ToString();
                 if (!thisLabel.ContainsKey("filename"))
                 {
-                    Debug.WriteLine("Dymo.cs No `labels`[x].`filename` parameter");
+                    Debug.WriteLine("NodeDymoLibrary: Dymo.cs No `labels`[x].`filename` parameter");
                     throw new System.ArgumentException("'labels'.'filename' parameter must be defined for each label", "original");
                 }
 //                if (!File.Exists((string)thisLabel["filename"]))
@@ -129,7 +129,7 @@ namespace NodeDymoLib
 //                    throw new System.ArgumentException("'labels'.'filename' parameter must point to an existing file", "original");
 //                }
 
-                Debug.WriteLine("NodeDymoLibrary Adding label: " + (string)thisLabel["filename"]);
+                Debug.WriteLine("NodeDymoLibrary: Adding label: " + (string)thisLabel["filename"]);
                 try
                 {
                     label[i] = Label.Open((string)thisLabel["filename"]);
@@ -141,7 +141,7 @@ namespace NodeDymoLib
 
                 if (thisLabel.ContainsKey("fields"))
                 {
-                    Debug.WriteLine("NodeDymoLibrary Setting Field Values");
+                    Debug.WriteLine("NodeDymoLibrary: Setting Field Values");
                     IDictionary<string, object> fields = (IDictionary<string, object>)thisLabel["fields"];
                     foreach (var kv in fields)
                     {
@@ -165,7 +165,7 @@ namespace NodeDymoLib
 
                 if (thisLabel.ContainsKey("images"))
                 {
-                    Debug.WriteLine("NodeDymoLibrary Setting Image Values");
+                    Debug.WriteLine("NodeDymoLibrary: Setting Image Values");
                     IDictionary<string, object> images = (IDictionary<string, object>)thisLabel["images"];
                     foreach (var kv in images)
                     {
@@ -187,12 +187,12 @@ namespace NodeDymoLib
                 }
 
 
-                Debug.WriteLine("NodeDymoLibrary Add Label to print job");
+                Debug.WriteLine("NodeDymoLibrary: Add Label to print job");
                 printJob.AddLabel(label[i]);
             }
 
 
-            Debug.WriteLine("NodeDymoLibrary Lets Print the Label/s");
+            Debug.WriteLine("NodeDymoLibrary: Lets Print the Label/s");
             try
             {
                 printJob.Print();
@@ -202,7 +202,7 @@ namespace NodeDymoLib
                 throw ex;
             }
 
-            Debug.WriteLine("NodeDymoLibrary Label/s Printed");
+            Debug.WriteLine("NodeDymoLibrary: Label/s Printed");
             return true;
         }
 
