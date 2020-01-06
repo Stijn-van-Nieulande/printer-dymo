@@ -28,13 +28,13 @@
   "homepage": "https://github.com/FreshVine/printer-dymo#readme",
   "devDependencies": {
     "chai": "^3.3.0",
-    "gulp": "^3.9.0",
-    "gulp-jshint": "^1.11.2",
-    "gulp-mocha": "^2.1.3",
-    "mocha": "^2.3.3"
+    "gulp": "^4.0.2",
+    "gulp-jshint": "^2.1.0",
+    "gulp-mocha": "^7.0.2",
+    "mocha": "^7.0.0"
   },
   "dependencies": {
-    "electron-edge-js": "^8.3.2",
+    "electron-edge-js": "^12.8.1",
     "fs": "0.0.1-security",
     "path": "^0.12.7"
   }
